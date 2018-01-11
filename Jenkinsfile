@@ -2,13 +2,13 @@
 def msg = 'Awesome Student'
 def slave_ip = '172.31.13.230'
 def strip_origin = ~/^(.*?)\//
+def BRANCH = System.getenv('GIT_BRANCH') - strip_origin
 
 pipeline {
   agent none
 
   environment {
     MAJOR_VERSION = 1
-    BRANCH = "${env.GIT_BRANCH}" - strip_origin
   }
 
   stages {
