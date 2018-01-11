@@ -2,7 +2,7 @@
 def msg = 'Awesome Student'
 def slave_ip = '172.31.13.230'
 def strip_origin = ~/^(.*?)\//
-def BRANCH = System.getenv('GIT_BRANCH') - strip_origin
+def BRANCH = env.GIT_BRANCH - strip_origin
 
 pipeline {
   agent none
