@@ -61,9 +61,9 @@ pipeline {
         sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH}/"
       }
     }
-    stage("Running on CentOS") {
+    stage("Running master") {
       agent {
-        label 'CentOS'
+        label 'master'
       }
       steps {
         sh "wget http://${slave_ip}/rectangles/all/${env.BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
