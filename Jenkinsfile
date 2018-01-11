@@ -14,7 +14,7 @@ pipeline {
       agent any
 
       steps {
-        echo "${msg}"
+        sayHello "${msg}"
       }
     }
     stage('Git Information') {
