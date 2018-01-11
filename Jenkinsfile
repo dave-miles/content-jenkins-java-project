@@ -1,7 +1,9 @@
+
+def msg = 'Awesome Student'
+def slave_ip = '172.31.13.230'
+
 pipeline {
   agent none
-
-  def msg = 'Awesome Student'
 
   environment {
     MAJOR_VERSION = 1
@@ -55,7 +57,7 @@ pipeline {
         label 'apache'
       }
       steps {
-        sh "if ![ -d '/var/www/html/rectangles/all/${env.BRANCH_NAME}' ]; then mkdir /var/www/html/rectangles/all/${env.BRANCH_NAME}; fi"
+        sh "if ![ -d '/var/www/html/rectangles/all/${env.BRANCH_NAME}' ]; then mkdir -p /var/www/html/rectangles/all/${env.BRANCH_NAME}; fi"
         sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
       }
     }
@@ -64,7 +66,7 @@ pipeline {
         label 'CentOS'
       }
       steps {
-        sh "wget http://brandon4231.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://${slave_ip}/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -73,7 +75,7 @@ pipeline {
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://brandon4231.mylabserver.com/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://${slave_ip}/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -85,6 +87,7 @@ pipeline {
         branch 'master'
       }
       steps {
+        sh "if ![ -d '/var/www/html/rectangles/green' ]; then mkdir -p /var/www/html/rectangles/green; fi"
         sh "cp /var/www/html/rectangles/all/${env.BRANCH_NAME}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
       }
     }
