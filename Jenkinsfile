@@ -1,6 +1,8 @@
 pipeline {
   agent none
 
+  def msg = 'Awesome Student'
+
   environment {
     MAJOR_VERSION = 1
   }
@@ -10,7 +12,7 @@ pipeline {
       agent any
 
       steps {
-        echo 'Awesome  Student!'
+        echo "${msg}"
       }
     }
     stage('Git Information') {
