@@ -21,7 +21,7 @@ pipeline {
       agent any
 
       steps {
-        echo "My Branch Name: ${env.GIT_BRANCH}"
+        echo "My Branch Name: ${env.BRANCH}"
 
 /*        script {
           def myLib = new linuxacademy.git.gitStuff();
@@ -57,8 +57,8 @@ pipeline {
         label 'apache'
       }
       steps {
-        sh "if ![ -d '/var/www/html/rectangles/all/${env.GIT_BRANCH}' ]; then mkdir -p /var/www/html/rectangles/all/${env.GIT_BRANCH}; fi"
-        sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.GIT_BRANCH}/"
+        sh "if ! [ -d '/var/www/html/rectangles/all/${env.BRANCH}' ]; then mkdir -p /var/www/html/rectangles/all/${env.BRANCH}; fi"
+        sh "cp dist/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/${env.BRANCH}/"
       }
     }
     stage("Running on CentOS") {
@@ -66,7 +66,7 @@ pipeline {
         label 'CentOS'
       }
       steps {
-        sh "wget http://${slave_ip}/rectangles/all/${env.GIT_BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://${slave_ip}/rectangles/all/${env.BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -75,7 +75,7 @@ pipeline {
         docker 'openjdk:8u121-jre'
       }
       steps {
-        sh "wget http://${slave_ip}/rectangles/all/${env.GIT_BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "wget http://${slave_ip}/rectangles/all/${env.BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
         sh "java -jar rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar 3 4"
       }
     }
@@ -87,8 +87,8 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh "if ![ -d '/var/www/html/rectangles/green' ]; then mkdir -p /var/www/html/rectangles/green; fi"
-        sh "cp /var/www/html/rectangles/all/${env.GIT_BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
+        sh "if ! [ -d '/var/www/html/rectangles/green' ]; then mkdir -p /var/www/html/rectangles/green; fi"
+        sh "cp /var/www/html/rectangles/all/${env.BRANCH}/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar /var/www/html/rectangles/green/rectangle_${env.MAJOR_VERSION}.${env.BUILD_NUMBER}.jar"
       }
     }
     stage('Promote Development Branch to Master') {
