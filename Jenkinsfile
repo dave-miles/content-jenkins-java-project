@@ -23,11 +23,11 @@ pipeline {
       steps {
         echo "My Branch Name: ${GIT_BRANCH}"
 
-/*        script {
+        script {
           def myLib = new linuxacademy.git.gitStuff();
 
           echo "My Commit: ${myLib.gitCommit("${env.WORKSPACE}/.git")}"
-        } */
+        }
       }
     }
     stage('Unit Tests') {
